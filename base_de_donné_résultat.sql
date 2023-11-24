@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS resultats;
+
+USE resultats;
+
+CREATE TABLE IF NOT EXISTS resultats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pseudo VARCHAR(50) NOT NULL,
+    exercice VARCHAR(20) NOT NULL,
+    DateHeure DATETIME NOT NULL,
+    Temps TIME NOT NULL,
+    nbTotal INT NOT NULL,
+    nbOK INT NOT NULL
+);
