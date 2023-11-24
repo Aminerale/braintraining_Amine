@@ -87,10 +87,6 @@ def next_point(event):
     lbl_target.configure(text=f"Cliquez sur le point ({round(target_x, 1)}, {round(target_y, 1)}). Echelle x -10 à +10, y-5 à +5")
 
 
-def save_game(event):
-    # TODO
-    print("dans save")
-
 
 def display_timer():
     duration=datetime.datetime.now()-start_date #elapsed time since beginning, in time with decimals
@@ -103,6 +99,7 @@ def display_timer():
 def open_window_geo_01(window):
     # window = tk.Tk()
     global window_geo01, hex_color, lbl_title, lbl_duration, lbl_result, lbl_target, canvas, start_date
+    start_date = datetime.datetime.now()
     window_geo01 = tk.Toplevel(window)
 
     window_geo01.title("Exercice de géométrie")
@@ -138,6 +135,13 @@ def open_window_geo_01(window):
 
     btn_finish = tk.Button(window_geo01, text="Terminer", font=("Arial", 15))
     btn_finish.grid(row=6, column=0, columnspan=6)
+
+    def save_game(event):
+        # TODO
+        pseudo = entry_pseudo.get()
+        print(pseudo)
+        database.save_game_bd(pseudo, exercise, start_date, display_timer(), nbtrials, nbsuccess)
+
 
     # first call of next_point
     next_point(event=None)

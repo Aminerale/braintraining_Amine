@@ -24,7 +24,7 @@ def exercise(event,exer):
 
 #call display_results
 def display_result(event):
-    # TODO
+    #
     print("display_result")
 
 
