@@ -1,19 +1,10 @@
-# braintraining_forstudents
+Voici quelque informations:
 
-### Objectif ###
+Ce qui fonctionne:
+si je tape un nom, joue à un jeu et que je clique terminer cela rentre dans la base de données les infromations suivantes:
+le pseudo, le nom de l'excercie, la date et l'heure du moment, le nombre d'essai et le nombre de victoire.
 
-Il s'agit de compléter en python un projet déjà commencé par mon enseignant permettant de créer des exercices interactifs.
-Il s'agit d'en faire un outil plus complet qui enregistre les travaux des étudiants et offre une gestion des utilisateurs.
-Ce développement aura lieu pendant ma formation de CFC informaticien.\
-Version : \
-26.10.2023 : ouverture du dépôt
+Ce qui ne fonctionne pas :
+la colonne temps dans la base de donnée reste (NULL)
+je n'ai pas eu le temps de faire l'affichage tkinter quand on clique sur display car j'ai été malade 2 fois (cela reste de ma faute) mais je pense le finir la semaine prochaine
 
-### Comment configurer ma machine pour que le programme fonctionne? ###
-
-Il s'agit d'une application en python réalisée avec tkinter pour la partie graphique. Aucune configuration spécifique n'est requise.\
-Il conviendra cependant d'installer le package mysql-connector-python pour l'interaction avec la BD.
-
-### A qui puis-je m'adresser? ###
-
-Propriétaire du dépôt : frederique.andolfatto@eudvaud.ch\
-Enseignant ayant créé le projet de base : jeanphilippe.chavey@eduvaud.ch
