@@ -2,12 +2,14 @@
 # JCY oct 23
 # PRO DB PY
 
+from tkinter import *
 import tkinter as tk
 import random
 from math import sqrt
 import time
 import database
 import datetime
+
 
 
 # Main window
@@ -18,6 +20,7 @@ target_x = 10 # x & y to find
 target_y = 10
 scale = 47.5 #100 pixels for x=1
 mycircle= None #objet utilisé pour le cercle rouge
+
 
 
 #important data (to save)
@@ -139,8 +142,10 @@ def open_window_geo_01(window):
     def save_game(event):
         # TODO
         pseudo = entry_pseudo.get()
+        duration= "00:" + lbl_duration.cget("text")
         print(pseudo)
-        database.save_game_bd(pseudo, exercise, start_date, display_timer(), nbtrials, nbsuccess)
+        database.save_game_bd(pseudo, exercise, start_date, duration, nbtrials, nbsuccess)
+        Tk.destroy(window_geo01)
 
 
     # first call of next_point
@@ -153,6 +158,8 @@ def open_window_geo_01(window):
     canvas.bind("<Button-1>", canvas_click)
     btn_next.bind("<Button-1>", next_point)
     btn_finish.bind("<Button-1>", save_game)
+
+
 
     # main loop
     window_geo01.mainloop()

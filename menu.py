@@ -8,6 +8,7 @@ import tkinter as tk
 import geo01
 import info02
 import info05
+import result
 
 # exercises array
 a_exercise=["geo01", "info02", "info05"]
@@ -24,7 +25,7 @@ def exercise(event,exer):
 
 #call display_results
 def display_result(event):
-    #
+    result.open_window_result(window)
     print("display_result")
 
 

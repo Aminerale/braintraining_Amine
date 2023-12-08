@@ -46,9 +46,7 @@ def next(event):
     entry_n2.delete(0, 'end')
 
 
-def save_game(event):
-    print("dans save")
-    # TODO
+
 
 
 def test(event):
@@ -120,6 +118,16 @@ def open_window_info_02(window):
 
     start_date = datetime.datetime.now()
     display_timer()
+
+    def save_game(event):
+        print("dans save")
+        pseudo = entry_pseudo.get()
+        duration = "00:" + lbl_duration.cget("text")
+        print(pseudo)
+        database.save_game_bd(pseudo, exercise, start_date, duration, nbtrials, nbsuccess)
+        Tk.destroy(window_info02)
+
+
     # first call of next_point
     next(event=None)
 
