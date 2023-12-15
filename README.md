@@ -1,10 +1,8 @@
-Voici quelque informations:
+Voici quelque informations à lire avant de corriger:
 
-Ce qui fonctionne:
-si je tape un nom, joue à un jeu et que je clique terminer cela rentre dans la base de données les infromations suivantes:
-le pseudo, le nom de l'excercie, la date et l'heure du moment, le nombre d'essai et le nombre de victoire.
+Problémes:
+j'ai éssayée de faire comme bonus le total des résultats, mais cela n'a pas l'air de fonctionner mais si vous voulez vérifier le code il se trouve dans le fichier result.py .
 
-Ce qui ne fonctionne pas :
-la colonne temps dans la base de donnée reste (NULL) et 
-je n'ai pas eu le temps de faire l'affichage tkinter quand on clique sur display car j'ai été malade 2 fois (cela reste de ma faute) mais je pense le finir la semaine prochaine
+CRUD:
+Du fait que j'ai perdu beaucoup de temps sur le bonus total(pour au final aucun résultats) mon CRUD n'est pas très avancé car je n'ai fait que la fonction pour ajouter un nouveau résultats mais je n'arrive pas a lancer la fenetre pour vérifier si cela fonctionne.
 
