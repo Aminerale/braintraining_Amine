@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import *
 import database
 import geo01
+import crud
 
 db_connection = database.db_connection
 
@@ -25,7 +26,7 @@ def display(mytuple):
     global frame5
     for line in range(0, len(mytuple)):
         for col in range(0, len(mytuple[line])):
-            (tk.Label(frame5, text=mytuple[line][col], width=15, font=("Arial", 10)).grid(row=line, column=col,padx=2, pady=2))
+            (tk.Label(frame5, text=mytuple[line][col], width=15, font=("Arial", 10)).grid(row=line+1, column=col,padx=2, pady=2))
 
 # fonction qui va prendre ce que l'utilisateur à écrit dans les entrés
 def select_data_2(pseudo, exercice, date_debut, date_fin):
@@ -35,16 +36,22 @@ def select_data_2(pseudo, exercice, date_debut, date_fin):
     data = cursor.fetchall()
     return data
 
-def select_resultats():
-    pseudo = entre1.get()
-    exercice = entre2.get()
-    date_debut = entre3.get()
-    date_fin = entre4.get()
+# fonction pour afficher le total des résultats en bas
+def data_total(a):
+    if entre1.get() == "":
+        query = ("select count(id), SEC_TO_TIME(SUM(TIME_TO_SEC(result.Temps))), sum(nbTotal) ,sum(nbOK) from result")
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        total = cursor.fetchall()
+        return total
+    else:
+        query = ("select count(id), SEC_TO_TIME(SUM(TIME_TO_SEC(result.Temps))), sum(nbTotal) ,sum(nbOK) from result where pseudo = (%s)")
+        cursor = db_connection.cursor()
+        cursor.execute(query, (a,))
+        total = cursor.fetchall()
+        return total
 
-    data = select_data_2(pseudo, exercice, date_debut, date_fin)
-    display(data)
-
-# fonction avec tout les parametres de la fenetres
+# fonction avec tout les parametres de la fenetre
 def open_window_result(window):
     global frame5, label7, label8, label9, label10, label11, label12,entre1, entre2, entre3, entre4
 
@@ -71,6 +78,8 @@ def open_window_result(window):
     frame6.pack()
     frame7 = Frame(window)
     frame7.pack()
+    frame9 = Frame(window)
+    frame9.pack()
 
     # couleur de la fenetre
     rgb_color = (139, 201, 194)
@@ -111,31 +120,66 @@ def open_window_result(window):
     label6 = Label(frame7, text="Total",font=("Arial Bold", 15))
     label6.pack(side=LEFT)
 
-    label7 = Label(frame5, text="Elève")
+    label7 = Label(frame5, text="Elève",font=("Arial Bold",13))
     label7.grid(row=0,column=0)
 
-    label8 = Label(frame5, text="Exercie")
+    label8 = Label(frame5, text="Exercie",font=("Arial Bold",13))
     label8.grid(row=0,column=1)
 
-    label9 = Label(frame5, text="Date Heure")
+    label9 = Label(frame5, text="Date Heure",font=("Arial Bold",13))
     label9.grid(row=0,column=2)
 
-    label10 = Label(frame5, text="Temps")
+    label10 = Label(frame5, text="Temps",font=("Arial Bold",13))
     label10.grid(row=0,column=3)
 
-    label11 = Label(frame5, text="nb Total")
+    label11 = Label(frame5, text="nb Total",font=("Arial Bold",13))
     label11.grid(row=0,column=4)
 
-    label12 = Label(frame5, text="nb Ok")
+    label12 = Label(frame5, text="nb Ok",font=("Arial Bold",13))
     label12.grid(row=0,column=5)
 
+    # affiche l'utilisateur entré
+    def entry_player(e):
+        for widget in frame5.winfo_children():
+            widget.grid_forget()
 
-    bouton = Button(frame4, text="Voir résultats", command=select_resultats)
+        # Récupérer les entrées des utilisateurs
+        pseudo = entre1.get()
+        exercice = entre2.get()
+        date_debut = entre3.get()
+        date_fin = entre4.get()
+
+        # Convertir les chaînes vides en None
+        pseudo = pseudo if pseudo else None
+        exercice = exercice if exercice else None
+        date_debut = date_debut if date_debut else None
+        date_fin = date_fin if date_fin else None
+
+        # Utilise les valeurs récupérées dans la fonction select_data_2
+        data = select_data_2(pseudo, exercice, date_debut, date_fin)
+        display(data, frame5)
+
+        total = data_total(pseudo)
+        display(total, frame9)
+
+
+    # Bouton pour voir le résultat
+    bouton = Button(frame4, text="Voir résultats", command=entry_player)
     bouton.pack(side=LEFT)
 
 
+    # fonction pour ouvrir la fenetre
+    def display_crud(event):
+        crud.open_window_crud(window)
+
+
+    # affichage du tableau des résultats
     select_data()
     data = select_data()
     display(data)
 
+    # affichage du tableau du total
+    entry_player(e)
+    total = data_total()
+    display(total)
     window.mainloop()
