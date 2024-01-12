@@ -22,32 +22,40 @@ def select_data():
 
 # fonction pour créé le tableau pour afficher les résultats
 
-def display(mytuple):
-    global frame5
+def display(mytuple,myframe):
+    #global frame5
     for line in range(0, len(mytuple)):
         for col in range(0, len(mytuple[line])):
-            (tk.Label(frame5, text=mytuple[line][col], width=15, font=("Arial", 10)).grid(row=line+1, column=col,padx=2, pady=2))
+            (tk.Label(myframe, text=mytuple[line][col], width=15, font=("Arial", 10)).grid(row=line+1, column=col,padx=2, pady=2))
 
 # fonction qui va prendre ce que l'utilisateur à écrit dans les entrés
 def select_data_2(pseudo, exercice, date_debut, date_fin):
-    query = "SELECT pseudo, exercice, DateHeure, Temps, nbTotal, nbOK FROM resultats WHERE pseudo = '' AND exercice = '' AND DateHeure >= '' AND DateHeure <= ''"
+    global entre1
+    pseudo = entre1.get()
+    query = "SELECT pseudo, exercice, DateHeure, Temps, nbTotal, nbOK FROM resultats where pseudo like '%" + pseudo + "%'"
     cursor = db_connection.cursor()
-    cursor.execute(query, (pseudo, exercice, date_debut, date_fin))
+    print(query)
+
+    cursor.execute(query)
+
     data = cursor.fetchall()
     return data
 
 # fonction pour afficher le total des résultats en bas
-def data_total(a):
+def data_total(e):
     if entre1.get() == "":
-        query = ("select count(id), SEC_TO_TIME(SUM(TIME_TO_SEC(result.Temps))), sum(nbTotal) ,sum(nbOK) from result")
+        query = ("select count(id), SEC_TO_TIME(SUM(TIME_TO_SEC(resultats.Temps))), sum(nbTotal) ,sum(nbOK) from resultats")
         cursor = db_connection.cursor()
         cursor.execute(query)
         total = cursor.fetchall()
         return total
     else:
-        query = ("select count(id), SEC_TO_TIME(SUM(TIME_TO_SEC(result.Temps))), sum(nbTotal) ,sum(nbOK) from result where pseudo = (%s)")
+        pseudo = entre1.get()
+        query = ("select count(id), SEC_TO_TIME(SUM(TIME_TO_SEC(resultats.Temps))), sum(nbTotal) ,sum(nbOK) from resultats where pseudo like '%" + pseudo + "%'")
+        print(query)
         cursor = db_connection.cursor()
-        cursor.execute(query, (a,))
+
+        cursor.execute(query)
         total = cursor.fetchall()
         return total
 
@@ -139,7 +147,7 @@ def open_window_result(window):
     label12.grid(row=0,column=5)
 
     # affiche l'utilisateur entré
-    def entry_player(e):
+    def entry_player():
         for widget in frame5.winfo_children():
             widget.grid_forget()
 
@@ -159,27 +167,28 @@ def open_window_result(window):
         data = select_data_2(pseudo, exercice, date_debut, date_fin)
         display(data, frame5)
 
-        total = data_total(pseudo)
+        '''total = data_total(pseudo)
+        display(total, frame9)'''
+
+        total = data_total(None)
         display(total, frame9)
 
 
     # Bouton pour voir le résultat
-    bouton = Button(frame4, text="Voir résultats", command=entry_player)
+    bouton = Button(frame4, text="Voir résultats",command=entry_player)
     bouton.pack(side=LEFT)
-
+    # affichage du tableau du total
+    entry_player()
+    window.mainloop()
 
     # fonction pour ouvrir la fenetre
     def display_crud(event):
         crud.open_window_crud(window)
 
+'''
 
     # affichage du tableau des résultats
     select_data()
     data = select_data()
-    display(data)
-
-    # affichage du tableau du total
-    entry_player(e)
-    total = data_total()
-    display(total)
-    window.mainloop()
+    display(data,frame5)
+'''

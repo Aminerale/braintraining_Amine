@@ -45,7 +45,7 @@ def open_window_crud():
         entre1 = Entry(frame2)
         entre1.grid(row=0, column=1)
 
-        label3 = Label(frame2, text="exercie")
+        label3 = Label(frame2, text="exercice")
         label3.grid(row=1, column=0)
 
         entre2 = Entry(frame2)
@@ -66,7 +66,7 @@ def open_window_crud():
         # requete sql qui va crée les resultats dans la db
         def create_new_result():
             create = f" values ('{entre1.get()}', '{entre2.get()}', '{entre3.get()}', '{entre4.get()}')"
-            query = ("insert into result (name, exercise, date_hour, duration)")
+            query = ("insert into resultats (pseudo, exercise, DateHeure, Temps)")
             query = query + create
             print(query)
             cursor = db_connection.cursor()
