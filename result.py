@@ -9,10 +9,15 @@ from tkinter import *
 import database
 import geo01
 import crud
+import login
+import subprocess
 
 db_connection = database.db_connection
 
 # cette fonction va prendre les données dans la bd qui va etre ensuite utiliser dans la fonction suivante
+
+def open_register_window():
+    subprocess.run(["python", "register.py"])
 def select_data():
     query = ("select pseudo, exercice, DateHeure, Temps, nbTotal, nbOK from resultats")
     cursor = db_connection.cursor()
@@ -177,6 +182,16 @@ def open_window_result(window):
     # Bouton pour voir le résultat
     bouton = Button(frame4, text="Voir résultats",command=entry_player)
     bouton.pack(side=LEFT)
+
+    # Bouton pour se login
+    bouton2 = Button(frame4, text="Login")
+    bouton2.pack(side=LEFT)
+
+    #bouton pour s'enregistrer
+    bouton3 = Button(frame4, text="Register", command=open_register_window)
+    bouton3.pack(side=LEFT)
+
+
     # affichage du tableau du total
     entry_player()
     window.mainloop()
